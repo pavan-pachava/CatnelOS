@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  db:
+    image: timescale/timescaledb-ha:pg16-oss
+    container_name: pulseos-db
+    environment:
+      POSTGRES_DB: pulseos
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Pavan@12345
+    ports:
+      - "5444:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # This will automatically run your migration script on first container start
+      - ./migrations/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql
+
+  redis:
+    image: redis:7-alpine
+    container_name: pulseos-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
