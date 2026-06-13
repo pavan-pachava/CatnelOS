@@ -41,13 +41,14 @@ export default function AnalyticsPage() {
       try {
         const res = await fetch('/api/data/spotify/history?limit=20')
         const data = await res.json()
-        if (data.items && data.items.length > 0) {
+        if (data.items) {
           setRecentTracks(data.items)
           setIsUsingMockSpotify(false)
         } else {
-          throw new Error('No tracks')
+          throw new Error('Invalid response')
         }
       } catch (err) {
+        console.error('Spotify fetch failed, using mock:', err)
         setIsUsingMockSpotify(true)
         setRecentTracks(mockAnalyticsData.listening_timeline.recent.map(item => ({
           track: {
@@ -66,13 +67,14 @@ export default function AnalyticsPage() {
       try {
         const res = await fetch('/api/data/github/history?limit=10')
         const data = await res.json()
-        if (data.items && data.items.length > 0) {
+        if (data.items) {
           setRecentCommits(data.items)
           setIsUsingMockGitHub(false)
         } else {
-          throw new Error('No commits')
+          throw new Error('Invalid response')
         }
       } catch (err) {
+        console.error('GitHub fetch failed, using mock:', err)
         setIsUsingMockGitHub(true)
         setRecentCommits(mockAnalyticsData.coding_timeline.recent)
       }
@@ -151,7 +153,9 @@ export default function AnalyticsPage() {
                 </div>
               ))
             ) : (
-              <p className="text-slate-400 text-sm">Connect Spotify to see your listening history</p>
+              <p className="text-slate-400 text-sm text-center py-4">
+                {isUsingMockSpotify ? 'Connect Spotify to see your listening history' : 'No recent listening activity found'}
+              </p>
             )}
           </div>
         </Card>
@@ -181,7 +185,9 @@ export default function AnalyticsPage() {
                 </div>
               ))
             ) : (
-              <p className="text-slate-400 text-sm text-center py-4">Connect GitHub to see your coding history</p>
+              <p className="text-slate-400 text-sm text-center py-4">
+                {isUsingMockGitHub ? 'Connect GitHub to see your coding history' : 'No recent commits found'}
+              </p>
             )}
           </div>
         </Card>

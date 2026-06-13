@@ -123,7 +123,7 @@ export default function IntegrationsPage() {
                         <p className="text-xs text-slate-400">Status</p>
                       </div>
                       <div>
-                        <p className="text-xl font-bold text-white">{connectedInfo.tracks_today || '-'}</p>
+                        <p className="text-xl font-bold text-white">{connectedInfo.tracks_today ?? 0}</p>
                         <p className="text-xs text-slate-400">Songs Today</p>
                       </div>
                       <div>
@@ -138,7 +138,7 @@ export default function IntegrationsPage() {
                         <p className="text-xs text-slate-400">Status</p>
                       </div>
                       <div>
-                        <p className="text-xl font-bold text-white">{connectedInfo.commits_today || '-'}</p>
+                        <p className="text-xl font-bold text-white">{connectedInfo.commits_today ?? 0}</p>
                         <p className="text-xs text-slate-400">Commits Today</p>
                       </div>
                       <div>

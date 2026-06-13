@@ -55,6 +55,7 @@ export async function getSpotifyCurrentlyPlaying(userId: string) {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
+    cache: 'no-store',
   })
 
   if (!response.ok) {
@@ -75,6 +76,7 @@ export async function getSpotifyRecentlyPlayed(userId: string, limit = 50) {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
+      cache: 'no-store',
     }
   )
 
@@ -96,6 +98,7 @@ export async function getSpotifyTopTracks(userId: string, timeRange = 'medium_te
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
+      cache: 'no-store',
     }
   )
 
@@ -120,6 +123,7 @@ export async function getSpotifyAudioFeatures(userId: string, trackIds: string[]
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
+      cache: 'no-store',
     }
   )
 

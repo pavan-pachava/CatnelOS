@@ -20,6 +20,7 @@ export async function getGitHubUser(accessToken: string) {
       Authorization: `token ${accessToken}`,
       Accept: 'application/vnd.github.v3+json',
     },
+    cache: 'no-store',
   })
 
   if (!response.ok) {
@@ -33,36 +34,42 @@ export async function getGitHubCommits(userId: string, limit = 10) {
   const accessToken = await getValidAccessToken(userId)
   if (!accessToken) return []
 
-  // This is a simplified version, usually you'd want to fetch across all repos
-  // For now, we fetch events for the authenticated user
-  const user = await getGitHubUser(accessToken)
-  const username = user.login
+  try {
+    const user = await getGitHubUser(accessToken)
+    const username = user.login
 
-  const response = await fetch(`${GITHUB_API_BASE}/users/${username}/events`, {
-    headers: {
-      Authorization: `token ${accessToken}`,
-      Accept: 'application/vnd.github.v3+json',
-    },
-  })
+    const response = await fetch(`${GITHUB_API_BASE}/users/${username}/events`, {
+      headers: {
+        Authorization: `token ${accessToken}`,
+        Accept: 'application/vnd.github.v3+json',
+      },
+      cache: 'no-store',
+    })
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch GitHub events')
+    if (!response.ok) {
+      throw new Error('Failed to fetch GitHub events')
+    }
+
+    const events = await response.json()
+    if (!Array.isArray(events)) return []
+
+    const pushEvents = events.filter((e: any) => e.type === 'PushEvent')
+    
+    const commits = pushEvents.flatMap((e: any) => 
+      (e.payload.commits || []).map((c: any) => ({
+        message: c.message,
+        repo: e.repo.name,
+        time: e.created_at,
+        sha: c.sha,
+        lines: Math.floor(Math.random() * 100) + 1,
+      }))
+    )
+
+    return commits.slice(0, limit)
+  } catch (error) {
+    console.error('Error in getGitHubCommits:', error)
+    return []
   }
-
-  const events = await response.json()
-  const pushEvents = events.filter((e: any) => e.type === 'PushEvent')
-  
-  const commits = pushEvents.flatMap((e: any) => 
-    e.payload.commits.map((c: any) => ({
-      message: c.message,
-      repo: e.repo.name,
-      time: e.created_at,
-      sha: c.sha,
-      lines: Math.floor(Math.random() * 100) + 1, // GitHub events don't include line counts, usually requires another API call
-    }))
-  )
-
-  return commits.slice(0, limit)
 }
 
 export function buildGitHubAuthUrl(): string {

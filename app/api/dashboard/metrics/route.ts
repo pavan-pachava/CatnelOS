@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth'
 import { getSpotifyCurrentlyPlaying, getSpotifyRecentlyPlayed } from '@/lib/spotify-api'
-import { getSpotifyIntegration } from '@/lib/auth-service'
+import { getGitHubCommits } from '@/lib/github-api'
+import { getSpotifyIntegration, getIntegrationByProvider } from '@/lib/auth-service'
 
 export async function GET() {
   try {
@@ -12,10 +13,16 @@ export async function GET() {
     }
 
     const userId = session.user.id
-    const spotifyIntegration = await getSpotifyIntegration(userId)
+    const [spotifyIntegration, githubIntegration] = await Promise.all([
+      getSpotifyIntegration(userId),
+      getIntegrationByProvider(userId, 'github')
+    ])
     
     let currentMood = 'Unknown'
     let tracksToday = 0
+    let commitsToday = 0
+
+    const today = new Date().setHours(0, 0, 0, 0)
 
     if (spotifyIntegration) {
       try {
@@ -24,7 +31,7 @@ export async function GET() {
             console.error('Spotify current playing fetch failed:', e)
             return null
           }),
-          getSpotifyRecentlyPlayed(userId, 20).catch(e => {
+          getSpotifyRecentlyPlayed(userId, 50).catch(e => {
             console.error('Spotify recently played fetch failed:', e)
             return []
           })
@@ -35,28 +42,53 @@ export async function GET() {
         }
 
         if (Array.isArray(recentTracks)) {
-          const today = new Date().setHours(0, 0, 0, 0)
           tracksToday = recentTracks.filter((item: any) => 
             item?.played_at && new Date(item.played_at).getTime() > today
           ).length
         }
       } catch (spotifyError) {
         console.error('Spotify data aggregation failed:', spotifyError)
-        // Continue with default values if Spotify calls fail
       }
     }
 
+    if (githubIntegration) {
+      try {
+        const commits = await getGitHubCommits(userId, 50).catch(e => {
+          console.error('GitHub commits fetch failed:', e)
+          return []
+        })
+        
+        if (Array.isArray(commits)) {
+          commitsToday = commits.filter((c: any) => 
+            c?.time && new Date(c.time).getTime() > today
+          ).length
+        }
+      } catch (githubError) {
+        console.error('GitHub data aggregation failed:', githubError)
+      }
+    }
+
+    const todayAtGlance = [
+      { label: 'Energy Level', value: 78, unit: '%' },
+      { label: 'Meeting Load', value: 5, unit: 'meetings' },
+      { label: 'Current Streak', value: 12, unit: 'days' },
+    ]
+
+    if (spotifyIntegration) {
+      todayAtGlance.push({ label: 'Tracks Today', value: tracksToday, unit: 'songs' })
+      todayAtGlance.push({ label: 'Listening Mood', value: currentMood, unit: 'mood' })
+    }
+
+    if (githubIntegration) {
+      todayAtGlance.push({ label: 'Commits Today', value: commitsToday, unit: 'commits' })
+    }
+
     const metrics = {
-      today_at_glance: [
-        { label: 'Energy Level', value: 78, unit: '%' },
-        { label: 'Meeting Load', value: 5, unit: 'meetings' },
-        { label: 'Current Streak', value: 12, unit: 'days' },
-        { label: 'Tracks Today', value: tracksToday || '-', unit: 'songs' },
-        { label: 'Listening Mood', value: currentMood, unit: 'mood' },
-      ],
+      today_at_glance: todayAtGlance,
       focus_score: 76,
       live_now: {
-        spotify_connected: !!spotifyIntegration
+        spotify_connected: !!spotifyIntegration,
+        github_connected: !!githubIntegration
       }
     }
 
