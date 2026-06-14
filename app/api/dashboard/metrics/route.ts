@@ -22,8 +22,10 @@ export async function GET() {
     let tracksToday = 0
     let commitsToday = 0
 
-    // Use a 24-hour window for "today" metrics to account for timezone differences and late-night work
-    const twentyFourHoursAgo = Date.now() - 24 * 60 * 60 * 1000
+    // Filter metrics for the current calendar day (from 12:00 AM)
+    const startOfDay = new Date()
+    startOfDay.setHours(0, 0, 0, 0)
+    const startOfDayTimestamp = startOfDay.getTime()
 
     if (spotifyIntegration) {
       try {
@@ -44,7 +46,7 @@ export async function GET() {
 
         if (Array.isArray(recentTracks)) {
           tracksToday = recentTracks.filter((item: any) => 
-            item?.played_at && new Date(item.played_at).getTime() > twentyFourHoursAgo
+            item?.played_at && new Date(item.played_at).getTime() > startOfDayTimestamp
           ).length
         }
       } catch (spotifyError) {
@@ -61,7 +63,7 @@ export async function GET() {
         
         if (Array.isArray(commits)) {
           commitsToday = commits.filter((c: any) => 
-            c?.time && new Date(c.time).getTime() > twentyFourHoursAgo
+            c?.time && new Date(c.time).getTime() > startOfDayTimestamp
           ).length
         }
       } catch (githubError) {

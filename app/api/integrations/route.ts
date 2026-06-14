@@ -13,13 +13,17 @@ export async function GET() {
     }
 
     const integrations = await getUserIntegrations(session.user.id)
-    const twentyFourHoursAgo = Date.now() - 24 * 60 * 60 * 1000
+    
+    // Filter metrics for the current calendar day (from 12:00 AM)
+    const startOfDay = new Date()
+    startOfDay.setHours(0, 0, 0, 0)
+    const startOfDayTimestamp = startOfDay.getTime()
     
     const enrichedIntegrations = await Promise.all(integrations.map(async (integration: any) => {
       if (integration.provider === 'spotify') {
         try {
           const recent = await getSpotifyRecentlyPlayed(session.user.id, 50)
-          const tracksToday = recent.filter((item: any) => new Date(item.played_at).getTime() > twentyFourHoursAgo).length
+          const tracksToday = recent.filter((item: any) => new Date(item.played_at).getTime() > startOfDayTimestamp).length
           return { ...integration, tracks_today: tracksToday }
         } catch (e) {
           console.error('Failed to fetch spotify metrics:', e)
@@ -29,7 +33,7 @@ export async function GET() {
       if (integration.provider === 'github') {
         try {
           const commits = await getGitHubCommits(session.user.id, 100)
-          const commitsToday = commits.filter((c: any) => new Date(c.time).getTime() > twentyFourHoursAgo).length
+          const commitsToday = commits.filter((c: any) => new Date(c.time).getTime() > startOfDayTimestamp).length
           return { ...integration, commits_today: commitsToday }
         } catch (e) {
           console.error('Failed to fetch github metrics:', e)
