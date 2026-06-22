@@ -85,7 +85,7 @@ export default function RegisterPage() {
         <div className="bg-white border-[3px] border-black p-8 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] text-black">
           
           <div className="flex justify-center mb-4">
-            <span className="text-4xl bg-[#FF5EA6] border-[3px] border-black p-2 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] select-none">⚡</span>
+            <img src="/logo.jpg" alt="Logo" className="w-16 h-16 object-cover rounded-none" />
           </div>
           
           <h1 className="text-3xl font-black uppercase text-center mb-1 tracking-tight">Create Node</h1>
@@ -156,7 +156,7 @@ export default function RegisterPage() {
               className="w-full uppercase font-black tracking-wider mt-2 bg-[#B2FF00]"
               disabled={isLoading}
             >
-              {isLoading ? 'Instantiating Node...' : 'Initialize telemetry stream ⚡'}
+              {isLoading ? 'Instantiating Node...' : 'Initialize telemetry stream'}
             </Button>
           </form>
 

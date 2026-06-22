@@ -39,8 +39,9 @@ export default function Home() {
           {/* Logo Badge */}
           <div className="flex items-center bg-white border-[3px] border-black p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-[#10B981]"></span>
-            <span className="text-xl font-black uppercase tracking-tight flex items-center gap-1">
-              ⚡ PulseOS
+            <span className="text-xl font-black uppercase tracking-tight flex items-center gap-2">
+              <img src="/logo.jpg" alt="Logo" className="w-5 h-5 object-cover rounded-none" />
+              PulseOS
             </span>
           </div>
 
@@ -58,7 +59,7 @@ export default function Home() {
           variant="secondary" 
           size="sm"
         >
-          {session ? '📊 Dashboard' : '⚡ Connect'}
+          {session ? '📊 Dashboard' : 'Connect'}
         </Button>
       </nav>
 
@@ -75,7 +76,7 @@ export default function Home() {
               <br />
               <span className="text-[#FF5EA6] flex items-center justify-center gap-2">
                 Operating System
-                <span className="text-[#FFE600] inline-block animate-pulse">⚡</span>
+                <img src="/logo.jpg" alt="Logo" className="w-8 h-8 inline-block animate-pulse object-cover rounded-none" />
               </span>
             </h1>
 
@@ -116,7 +117,7 @@ export default function Home() {
               size="lg"
               className="w-full sm:w-auto uppercase tracking-wider font-extrabold"
             >
-              Initialize ⚡
+              Initialize
             </Button>
           </div>
         </div>
@@ -251,7 +252,10 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="w-full max-w-7xl mx-auto px-4 border-t-[3px] border-black mt-20 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs font-bold uppercase text-slate-700 tracking-wider gap-4">
-        <p>⚡ PulseOS Kernel — All vectors operating within normal limits.</p>
+        <p className="flex items-center gap-1.5">
+          <img src="/logo.jpg" alt="Logo" className="w-4 h-4 object-cover rounded-none" />
+          PulseOS Kernel — All vectors operating within normal limits.
+        </p>
         <p>© {new Date().getFullYear()} PulseOS Corp. All telemetry protected.</p>
       </footer>
     </div>
