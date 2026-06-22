@@ -108,15 +108,25 @@ export default function ProfilePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {integrations.map((integration) => {
               const mockInt = mockIntegrations.find(i => i.id === integration.provider)
+              const displayName = mockInt?.name || integration.provider
+
               return (
                 <Card key={integration.id} className="text-center flex flex-col items-center justify-between p-6">
                   <div>
-                    <span className="text-4xl block mb-2 bg-[#FAF9F3] border-2 border-black p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] inline-block select-none">{mockInt?.icon || '🔌'}</span>
-                    <h3 className="font-black uppercase tracking-tight text-sm mt-3">{mockInt?.name || integration.provider}</h3>
+                    <span className="text-4xl block mb-2 bg-[#FAF9F3] border-2 border-black p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] inline-flex items-center justify-center w-16 h-16 select-none">
+                      {integration.provider === 'spotify' ? (
+                        <img src="/spotify.png" alt="Spotify" className="w-10 h-10 object-contain" />
+                      ) : integration.provider === 'github' ? (
+                        <img src="/github.png" alt="GitHub" className="w-10 h-10 object-contain" />
+                      ) : (
+                        mockInt?.icon || '🔌'
+                      )}
+                    </span>
+                    <h3 className="font-black uppercase tracking-tight text-sm mt-3">{displayName}</h3>
                     <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mt-2">Last synced 2 hours ago</p>
                   </div>
                   <div className="mt-4">
-                    <Badge variant="info">{mockInt?.badge}</Badge>
+                    <Badge variant="info">{mockInt?.badge || 'OAuth'}</Badge>
                   </div>
                 </Card>
               )

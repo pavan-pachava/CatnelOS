@@ -107,3 +107,10 @@ export async function getUserIntegrations(userId: string) {
 
   return result || []
 }
+
+export async function deleteIntegration(userId: string, provider: string): Promise<void> {
+  await db`
+    DELETE FROM integrations
+    WHERE user_id = ${userId} AND provider = ${provider}
+  `
+}

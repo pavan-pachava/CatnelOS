@@ -143,7 +143,9 @@ export default function AnalyticsPage() {
                     {item.track.image ? (
                       <img src={item.track.image} alt="Album" className="w-10 h-10 border-2 border-black rounded-none shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] select-none" />
                     ) : (
-                      <div className="w-10 h-10 bg-[#FAF9F3] border-2 border-black flex items-center justify-center font-bold text-lg select-none">🎵</div>
+                      <div className="w-10 h-10 bg-[#FAF9F3] border-2 border-black flex items-center justify-center select-none shrink-0">
+                        <img src="/spotify.png" alt="Spotify" className="w-6 h-6 object-contain" />
+                      </div>
                     )}
                     <div className="overflow-hidden">
                       <p className="font-extrabold text-black text-sm truncate leading-tight">{item.track.name}</p>
@@ -213,66 +215,7 @@ export default function AnalyticsPage() {
         </Card>
       </section>
 
-      {/* Time Allocation Breakdown */}
-      <section className="space-y-4">
-        <h2 className="text-xl font-black uppercase tracking-tight text-black">Time Allocation Breakdown</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="flex flex-col justify-between p-6">
-            <div>
-              <h3 className="font-black uppercase text-sm mb-2">Calendar Telemetry</h3>
-              <p className="text-xs sm:text-sm font-bold text-slate-700 leading-relaxed mb-6">
-                Allocation spent in focus slots versus meetings vs. buffer windows. Sync status tracks Google Calendar events.
-              </p>
-            </div>
-            <div>
-              <Badge variant="info">Calendar API Sync</Badge>
-            </div>
-          </Card>
 
-          <Card className="p-6">
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between items-center mb-1.5 font-black uppercase text-xs">
-                  <span>Deep Work</span>
-                  <span className="bg-white border border-black px-1 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">{totalCodingTime}%</span>
-                </div>
-                <div className="w-full bg-white border-2 border-black rounded-none h-4 overflow-hidden shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
-                  <div
-                    className="bg-[#00E5FF] border-r-2 border-black h-full"
-                    style={{ width: `${totalCodingTime}%` }}
-                  ></div>
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between items-center mb-1.5 font-black uppercase text-xs">
-                  <span>Meetings</span>
-                  <span className="bg-white border border-black px-1 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">{totalMeetingTime}%</span>
-                </div>
-                <div className="w-full bg-white border-2 border-black rounded-none h-4 overflow-hidden shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
-                  <div
-                    className="bg-[#FF5EA6] border-r-2 border-black h-full"
-                    style={{ width: `${totalMeetingTime}%` }}
-                  ></div>
-                </div>
-              </div>
-
-              <div>
-                <div className="flex justify-between items-center mb-1.5 font-black uppercase text-xs">
-                  <span>Buffer / Switch</span>
-                  <span className="bg-white border border-black px-1 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">{totalBuffer}%</span>
-                </div>
-                <div className="w-full bg-white border-2 border-black rounded-none h-4 overflow-hidden shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
-                  <div
-                    className="bg-[#FFE600] border-r-2 border-black h-full"
-                    style={{ width: `${totalBuffer}%` }}
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </Card>
-        </div>
-      </section>
 
       {/* Retrospectives */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

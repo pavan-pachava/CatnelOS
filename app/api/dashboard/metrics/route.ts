@@ -92,7 +92,6 @@ export async function GET() {
 
     const todayAtGlance: Array<{ label: string; value: string | number; unit: string }> = [
       { label: 'Energy Level', value: 78, unit: '%' },
-      { label: 'Meeting Load', value: 5, unit: 'meetings' },
       { label: 'Current Streak', value: 12, unit: 'days' },
     ]
 

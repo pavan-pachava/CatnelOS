@@ -18,15 +18,6 @@ export const mockIntegrations = [
     metrics: { commits: 342, prs: 28, reviews: 156 },
   },
   {
-    id: 'calendar',
-    name: 'Google Calendar',
-    description: 'Meeting load, free vs busy time blocks, late meetings, back-to-back ratios',
-    icon: '📅',
-    badge: 'OAuth',
-    connected: true,
-    metrics: { meetings_week: 18, avg_duration: '45m', busy_percent: 62 },
-  },
-  {
     id: 'weather',
     name: 'Weather API',
     description: 'Temperature, humidity, UV index, rain — correlated against your behavior patterns',
@@ -34,15 +25,6 @@ export const mockIntegrations = [
     badge: 'REST',
     connected: true,
     metrics: { temp_avg: '72°F', humidity: 65, uv_index: 6 },
-  },
-  {
-    id: 'checkin',
-    name: 'Manual check-ins',
-    description: 'Optional daily 30-second mood + energy rating. Fills gaps where API data is thin',
-    icon: '📝',
-    badge: 'manual',
-    connected: false,
-    metrics: { days_logged: 45, streak: 7 },
   },
   {
     id: 'wakatime',

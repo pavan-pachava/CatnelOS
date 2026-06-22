@@ -137,7 +137,7 @@ export default function Home() {
             </div>
             <h3 className="text-xl font-black uppercase tracking-tight">Consistency Hub</h3>
             <p className="text-sm font-bold text-slate-700 leading-relaxed">
-              Real-time multi-dimensional streak tracking. Keep your Spotify rhythms, calendar loads, and GitHub commits in absolute sync.
+              Real-time multi-dimensional streak tracking. Keep your Spotify rhythms and GitHub commits in absolute sync.
             </p>
           </Card>
 
@@ -147,7 +147,7 @@ export default function Home() {
             </div>
             <h3 className="text-xl font-black uppercase tracking-tight">Merit Badges</h3>
             <p className="text-sm font-bold text-slate-700 leading-relaxed">
-              AI-quantified achievement protocol artifacts. Auto-generate badges as you code more, listen to deeper tracks, and balance meetings.
+              AI-quantified achievement protocol artifacts. Auto-generate badges as you code more and listen to deeper tracks.
             </p>
           </Card>
 
@@ -165,10 +165,10 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card className="hover:bg-[#FFF] hover:shadow-[6px_6px_0px_0px_#FFE600] transition-all">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-4xl">🎵</span>
+                <img src="/spotify.png" alt="Spotify" className="w-10 h-10 object-contain select-none" />
                 <div>
                   <h4 className="font-black uppercase tracking-tight text-lg">Spotify Link</h4>
                   <Badge variant="info">Audio Data</Badge>
@@ -181,7 +181,7 @@ export default function Home() {
 
             <Card className="hover:bg-[#FFF] hover:shadow-[6px_6px_0px_0px_#FF5EA6] transition-all">
               <div className="flex items-center gap-3 mb-4">
-                <span className="text-4xl">💻</span>
+                <img src="/github.png" alt="GitHub" className="w-10 h-10 object-contain select-none" />
                 <div>
                   <h4 className="font-black uppercase tracking-tight text-lg">GitHub Stream</h4>
                   <Badge variant="warning">Dev Metrics</Badge>
@@ -189,19 +189,6 @@ export default function Home() {
               </div>
               <p className="text-sm text-slate-700 font-bold">
                 Monitors commit rates, code reviews, pull requests, and languages used to create coding speed visualizations.
-              </p>
-            </Card>
-
-            <Card className="hover:bg-[#FFF] hover:shadow-[6px_6px_0px_0px_#00E5FF] transition-all">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-4xl">📅</span>
-                <div>
-                  <h4 className="font-black uppercase tracking-tight text-lg">G-Calendar Sync</h4>
-                  <Badge variant="default">Schedule</Badge>
-                </div>
-              </div>
-              <p className="text-sm text-slate-700 font-bold">
-                Computes meeting loads, context switching overheads, and schedules to isolate deep focus slots.
               </p>
             </Card>
           </div>
@@ -234,7 +221,7 @@ export default function Home() {
           <div className="bg-[#FFE600] border-[3px] border-black p-8 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] space-y-4">
             <h3 className="text-2xl sm:text-3xl font-black uppercase tracking-tight">Initialize Your Personal OS Now</h3>
             <p className="text-sm sm:text-base font-bold text-black max-w-xl mx-auto">
-              Establish connection vectors to your Spotify, GitHub, and calendar systems. Start analyzing your identity today.
+              Establish connection vectors to your Spotify and GitHub accounts. Start analyzing your identity today.
             </p>
             <div className="pt-2">
               <Button onClick={handleGetStarted} variant="primary" size="lg" className="uppercase font-extrabold">

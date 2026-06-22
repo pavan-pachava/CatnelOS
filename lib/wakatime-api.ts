@@ -94,7 +94,7 @@ export function buildWakaTimeAuthUrl(): string {
     client_id: process.env.WAKATIME_ID || '',
     response_type: 'code',
     redirect_uri: process.env.WAKATIME_CALLBACK_URL || '',
-    scope: 'email,read_stats,read_summaries',
+    scope: 'email,read_stats,read_logged_time',
   })
 
   return `https://wakatime.com/oauth/authorize?${params.toString()}`
@@ -112,6 +112,7 @@ export async function exchangeWakaTimeCode(code: string): Promise<WakaTimeTokenR
   const response = await fetch('https://wakatime.com/oauth/token', {
     method: 'POST',
     headers: {
+      'Accept': 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     body: params.toString(),

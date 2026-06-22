@@ -34,13 +34,15 @@ export async function GET(request: NextRequest) {
     console.log('Exchanging WakaTime code for token...')
     const tokenResponse = await exchangeWakaTimeCode(code)
     
-    const expiresAt = new Date(Date.now() + tokenResponse.expires_in * 1000)
+    const expiresAt = tokenResponse.expires_in
+      ? new Date(Date.now() + tokenResponse.expires_in * 1000)
+      : null
     
     await saveIntegration(
       session.user.id,
       'wakatime',
       tokenResponse.access_token,
-      tokenResponse.refresh_token,
+      tokenResponse.refresh_token || '',
       expiresAt
     )
 

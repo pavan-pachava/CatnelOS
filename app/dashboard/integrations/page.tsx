@@ -63,6 +63,21 @@ export default function IntegrationsPage() {
     }
   }
 
+  const disconnectIntegration = async (provider: string) => {
+    try {
+      const res = await fetch('/api/integrations', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ provider }),
+      })
+      if (!res.ok) throw new Error('Failed to disconnect integration')
+      
+      setIntegrations(prev => prev.filter(i => i.provider !== provider))
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to disconnect')
+    }
+  }
+
   if (loading) {
     return (
       <div className="space-y-8 text-black">
@@ -90,7 +105,11 @@ export default function IntegrationsPage() {
       {error && <ErrorAlert message={error} />}
       {(spotifySuccess || githubSuccess || wakatimeSuccess) && (
         <div className="bg-[#00E5FF] border-[3px] border-black rounded-none p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-black font-extrabold uppercase text-xs tracking-wider">
-          ✅ {spotifySuccess ? 'Spotify' : githubSuccess ? 'GitHub' : 'WakaTime'} connected successfully to the core kernel!
+          ✅ {spotifySuccess 
+                ? 'Spotify' 
+                : githubSuccess 
+                  ? 'GitHub' 
+                  : 'WakaTime'} connected successfully to the core kernel!
         </div>
       )}
 
@@ -105,8 +124,14 @@ export default function IntegrationsPage() {
               <div>
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl bg-[#FAF9F3] border-2 border-black p-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] select-none">
-                      {integration.icon}
+                    <span className="text-3xl bg-[#FAF9F3] border-2 border-black p-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] select-none flex items-center justify-center w-12 h-12 shrink-0">
+                      {integration.id === 'spotify' ? (
+                        <img src="/spotify.png" alt="Spotify" className="w-8 h-8 object-contain" />
+                      ) : integration.id === 'github' ? (
+                        <img src="/github.png" alt="GitHub" className="w-8 h-8 object-contain" />
+                      ) : (
+                        integration.icon
+                      )}
                     </span>
                     <div>
                       <h3 className="text-lg font-black uppercase tracking-tight text-black">{integration.name}</h3>
@@ -180,13 +205,15 @@ export default function IntegrationsPage() {
               </div>
 
               {/* Status footer */}
-              <div className="flex items-center justify-between mt-auto">
+              <div className="flex items-center justify-between mt-auto flex-wrap gap-2">
                 <span className={`text-xs font-black uppercase tracking-wider flex items-center gap-2 ${
                   isConnected ? 'text-[#10B981]' : 'text-slate-500'
                 }`}>
                   <span className={`w-2 h-2 border border-black rounded-none ${isConnected ? 'bg-[#10B981]' : 'bg-slate-400'}`}></span>
                   {isConnected ? 'Connected' : 'Not Connected'}
                 </span>
+                
+                {/* Spotify / Github / Wakatime Connect */}
                 {(integration.id === 'spotify' || integration.id === 'github' || integration.id === 'wakatime') && !isConnected && (
                   <Button
                     variant="primary"
@@ -196,6 +223,20 @@ export default function IntegrationsPage() {
                     Connect
                   </Button>
                 )}
+                
+                {/* Spotify / Github / Wakatime Disconnect */}
+                {(integration.id === 'spotify' || integration.id === 'github' || integration.id === 'wakatime') && isConnected && (
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    className="bg-[#FF5EA6] text-black hover:bg-[#FF3E8B]"
+                    onClick={() => disconnectIntegration(integration.id)}
+                  >
+                    Disconnect
+                  </Button>
+                )}
+
+
               </div>
             </Card>
           )

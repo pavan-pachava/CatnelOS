@@ -5,17 +5,15 @@ A comprehensive personal analytics platform that tracks and visualizes your life
 ## Features
 
 ### 🔌 Data Integrations
-- **Spotify**: Listening history, audio features (BPM, energy, valence), top tracks
+- **Spotify**: Listening history, audio features (BPM, energy, valence), recently played, top tracks
 - **GitHub**: Commits, PRs, code reviews, languages, contribution streaks
-- **Google Calendar**: Meeting load, free time blocks, scheduling patterns
 - **Weather API**: Temperature, humidity, UV index correlated with behavior
-- **Manual Check-ins**: Daily mood & energy ratings
 - **Wakatime**: Precise coding time per language
 
 ### 📊 Daily Dashboard
-- **Today at a Glance**: 5 key metrics (energy, meetings, streak, coding, mood)
+- **Today at a Glance**: 4 key metrics (energy, streak, coding, mood)
 - **Morning Briefing**: AI-generated summary of your patterns
-- **Live Now Widget**: Current track, focus mode, next meeting
+- **Live Now Widget**: Current track, focus mode
 - **Streak Tracker**: Multiple habit streaks with progress
 - **Week Heatmap**: 7-day productivity visualization
 - **Focus Score**: Daily 0-100 composite score
@@ -23,7 +21,6 @@ A comprehensive personal analytics platform that tracks and visualizes your life
 ### ✨ Correlation Insights
 - Music → Productivity correlation
 - Weather → Mood effects
-- Meeting Load → Code Quality
 - Sleep proxy detection
 - Anomaly alerts
 - Optimal work window detection
@@ -123,7 +120,7 @@ All components use Tailwind CSS with a dark theme. Key colors:
 - Redis caching layer
 - BullMQ job queue for background workers
 - Stripe integration for subscriptions
-- Real OAuth flows for Spotify, GitHub, Google Calendar
+- Real OAuth flows for Spotify, GitHub
 - Dark/Light theme toggle
 - Mobile app (React Native)
 

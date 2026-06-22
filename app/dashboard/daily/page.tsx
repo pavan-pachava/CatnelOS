@@ -162,11 +162,7 @@ export default function DailyDashboardPage() {
                   )}
                 </div>
               </div>
-              <div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-500">Next Meeting</p>
-                <p className="text-xs font-extrabold text-black mt-1">{(mockDailyMetrics as any).live_now.next_meeting}</p>
-                <p className="text-[10px] text-slate-700 font-bold mt-0.5">{(mockDailyMetrics as any).live_now.time_until}</p>
-              </div>
+
             </div>
           </div>
           <div className="pt-4">

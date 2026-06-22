@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth'
-import { getUserIntegrations } from '@/lib/auth-service'
+import { getUserIntegrations, deleteIntegration, saveIntegration } from '@/lib/auth-service'
 import { buildSpotifyAuthUrl, getSpotifyRecentlyPlayed } from '@/lib/spotify-api'
 import { buildGitHubAuthUrl, getGitHubCommits } from '@/lib/github-api'
 import { buildWakaTimeAuthUrl, getWakaTimeSummaries } from '@/lib/wakatime-api'
@@ -102,12 +102,41 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ auth_url: authUrl })
     }
 
+
+
     return NextResponse.json(
       { error: 'Unsupported provider' },
       { status: 400 }
     )
   } catch (error) {
     console.error('Create integration error:', error)
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const session = await getSession()
+
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const body = await request.json()
+    const { provider } = body
+
+    if (!provider) {
+      return NextResponse.json({ error: 'Provider is required' }, { status: 400 })
+    }
+
+    await deleteIntegration(session.user.id, provider)
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error('Delete integration error:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
