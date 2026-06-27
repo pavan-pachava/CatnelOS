@@ -44,10 +44,10 @@ export default function LoginPage() {
         <div className="bg-white border-[3px] border-black p-8 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] text-black">
           
           <div className="flex justify-center mb-4">
-            <img src="/logo.png" alt="Logo" className="w-16 h-16 object-cover rounded-none" />
+            <img src="/catlogo.png" alt="Logo" className="logo-img w-20 h-20 object-cover rounded-none" />
           </div>
 
-          <h1 className="text-3xl font-black uppercase text-center mb-1 tracking-tight">PulseOS</h1>
+          <h1 className="text-3xl font-black uppercase text-center mb-1 tracking-tight">CatnelOS</h1>
           <p className="text-xs font-bold uppercase tracking-wider text-slate-700 text-center mb-6">Your life as a living data OS</p>
 
           {error && (

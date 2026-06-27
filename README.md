@@ -1,4 +1,4 @@
-# PulseOS - Your Life as a Living Data OS
+# CatnelOS - Your Life as a Living Data OS
 
 A comprehensive personal analytics platform that tracks and visualizes your life data across multiple integrations.
 

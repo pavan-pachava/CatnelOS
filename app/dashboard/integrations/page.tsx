@@ -8,6 +8,7 @@ import { ErrorAlert } from '@/components/ErrorAlert'
 import { integrationsConfig } from '@/lib/integrations-config'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { RefreshCw } from 'lucide-react'
 
 interface Integration {
   id: string
@@ -215,7 +216,7 @@ export default function IntegrationsPage() {
       {/* Header */}
       <div>
         <h1 className="text-4xl font-black uppercase tracking-tight text-black mb-2">Data Integrations</h1>
-        <p className="text-xs font-bold uppercase tracking-wider text-slate-700">What PulseOS plugs into</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-slate-700">What CatnelOS plugs into</p>
       </div>
 
       {error && <ErrorAlert message={error} />}
@@ -416,10 +417,8 @@ export default function IntegrationsPage() {
                         className="bg-transparent border-none p-0 cursor-pointer flex items-center justify-center h-6 w-6 hover:scale-110 active:scale-95 transition-all"
                         title="Refresh Weather Data"
                       >
-                        <img 
-                          src="/reload.png" 
-                          alt="Reload" 
-                          className={`w-4 h-4 object-contain ${refreshingWeather ? 'animate-spin' : ''}`}
+                        <RefreshCw 
+                          className={`w-4 h-4 text-black ${refreshingWeather ? 'animate-spin' : ''}`}
                         />
                       </button>
                       <span className="text-[9px] font-bold text-slate-600 uppercase select-none tracking-wider ml-1 bg-[#FAF9F3] border border-black/15 px-1.5 py-0.5 shadow-[1px_1px_0px_0px_rgba(0,0,0,0.05)] rounded-none">

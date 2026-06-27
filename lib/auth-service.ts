@@ -28,7 +28,7 @@ export async function getUserByEmail(email: string): Promise<(User & { password_
     WHERE email = ${email}
   `
 
-  return result[0] || null
+  return (result[0] as (User & { password_hash: string | null })) || null
 }
 
 export async function getUserById(id: string): Promise<User | null> {
@@ -38,7 +38,7 @@ export async function getUserById(id: string): Promise<User | null> {
     WHERE id = ${id}
   `
 
-  return result[0] || null
+  return (result[0] as User) || null
 }
 
 export async function verifyPassword(plainPassword: string, hashedPassword: string): Promise<boolean> {

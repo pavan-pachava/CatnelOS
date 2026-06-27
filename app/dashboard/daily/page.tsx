@@ -469,7 +469,7 @@ export default function DailyDashboardPage() {
         <Card className="lg:col-span-1 flex flex-col justify-between">
           <div>
             <h3 className="text-lg font-black uppercase tracking-tight mb-4">Focus Score</h3>
-            <div className="text-center mb-6 bg-[#FFE600] border-2 border-black p-4 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+            <div className="focus-score-box text-center mb-6 bg-[#FFE600] border-2 border-black p-4 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
               <p className="text-5xl font-black text-black">
                 {metrics?.focus_score && typeof metrics.focus_score !== 'number' ? metrics.focus_score.score : '-'}
               </p>

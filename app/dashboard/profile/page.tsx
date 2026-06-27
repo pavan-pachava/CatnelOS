@@ -80,7 +80,7 @@ export default function ProfilePage() {
       {/* Header */}
       <div>
         <h1 className="text-4xl font-black uppercase tracking-tight text-black mb-2">Profile</h1>
-        <p className="text-xs font-bold uppercase tracking-wider text-slate-700">Your PulseOS account settings and data</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-slate-700">Your CatnelOS account settings and data</p>
       </div>
 
       {error && <ErrorAlert message={error} />}
@@ -156,7 +156,7 @@ export default function ProfilePage() {
           <div className="p-4 bg-[#FAF9F3] border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <p className="font-black uppercase text-sm text-black">Export Data</p>
-              <p className="text-xs text-slate-700 font-bold mt-1">Download all your PulseOS telemetry vectors in standard JSON format.</p>
+              <p className="text-xs text-slate-700 font-bold mt-1">Download all your CatnelOS telemetry vectors in standard JSON format.</p>
             </div>
             <Button variant="secondary" size="sm" className="w-full sm:w-auto">
               📥 Export Data
