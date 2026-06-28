@@ -5,6 +5,10 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'CatnelOS',
   description: 'Your life as a living data OS',
+  icons: {
+    icon: '/catlogo.png',
+  },
+
 }
 
 export default function RootLayout({
