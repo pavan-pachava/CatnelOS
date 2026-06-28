@@ -146,10 +146,11 @@ export async function getGitHubCommits(userId: string, limit = 10): Promise<Comm
   }
 }
 
-export function buildGitHubAuthUrl(): string {
+export function buildGitHubAuthUrl(userId: string): string {
   const params = new URLSearchParams({
     client_id: process.env.GITHUB_ID || '',
     redirect_uri: process.env.GITHUB_CALLBACK_URL || '',
+    state: userId,
     scope: 'user,repo,read:org',
   })
 

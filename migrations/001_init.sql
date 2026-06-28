@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS users (
   updated_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 
 -- Sessions table (for NextAuth)
 CREATE TABLE IF NOT EXISTS sessions (
@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS sessions (
   created_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE INDEX idx_sessions_user_id ON sessions(user_id);
-CREATE INDEX idx_sessions_expires ON sessions(expires);
+CREATE INDEX IF NOT EXISTS idx_sessions_user_id ON sessions(user_id);
+CREATE INDEX IF NOT EXISTS idx_sessions_expires ON sessions(expires);
 
 -- Integrations table
 CREATE TABLE IF NOT EXISTS integrations (
@@ -40,8 +40,8 @@ CREATE TABLE IF NOT EXISTS integrations (
   UNIQUE(user_id, provider)
 );
 
-CREATE INDEX idx_integrations_user_id ON integrations(user_id);
-CREATE INDEX idx_integrations_provider ON integrations(provider);
+CREATE INDEX IF NOT EXISTS idx_integrations_user_id ON integrations(user_id);
+CREATE INDEX IF NOT EXISTS idx_integrations_provider ON integrations(provider);
 
 -- Spotify events table (TimescaleDB hypertable)
 CREATE TABLE IF NOT EXISTS spotify_events (
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS spotify_events (
 );
 
 SELECT create_hypertable('spotify_events', 'time', if_not_exists => TRUE);
-CREATE INDEX idx_spotify_events_user_id ON spotify_events(user_id);
+CREATE INDEX IF NOT EXISTS idx_spotify_events_user_id ON spotify_events(user_id);
 
 -- Metrics table (TimescaleDB hypertable)
 CREATE TABLE IF NOT EXISTS metrics (
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS metrics (
 );
 
 SELECT create_hypertable('metrics', 'time', if_not_exists => TRUE);
-CREATE INDEX idx_metrics_user_id ON metrics(user_id);
+CREATE INDEX IF NOT EXISTS idx_metrics_user_id ON metrics(user_id);
 
 -- Sync logs table
 CREATE TABLE IF NOT EXISTS sync_logs (
@@ -87,5 +87,5 @@ CREATE TABLE IF NOT EXISTS sync_logs (
   created_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE INDEX idx_sync_logs_user_id ON sync_logs(user_id);
-CREATE INDEX idx_sync_logs_provider ON sync_logs(provider);
+CREATE INDEX IF NOT EXISTS idx_sync_logs_user_id ON sync_logs(user_id);
+CREATE INDEX IF NOT EXISTS idx_sync_logs_provider ON sync_logs(provider);

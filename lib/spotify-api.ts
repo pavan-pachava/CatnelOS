@@ -135,11 +135,12 @@ export async function getSpotifyAudioFeatures(userId: string, trackIds: string[]
   return data.audio_features || []
 }
 
-export function buildSpotifyAuthUrl(): string {
+export function buildSpotifyAuthUrl(userId: string): string {
   const params = new URLSearchParams({
     client_id: process.env.SPOTIFY_ID || '',
     response_type: 'code',
     redirect_uri: process.env.SPOTIFY_CALLBACK_URL || '',
+    state: userId,
     scope: [
       'user-read-private',
       'user-read-email',

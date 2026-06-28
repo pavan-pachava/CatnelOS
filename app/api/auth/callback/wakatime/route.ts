@@ -3,19 +3,22 @@ import { auth } from '@/lib/auth'
 import { exchangeWakaTimeCode } from '@/lib/wakatime-api'
 import { saveIntegration } from '@/lib/auth-service'
 
-export async function GET(request: NextRequest) {
+export const GET = auth(async function GET(request: any) {
   try {
     console.log('WakaTime callback started...')
-    const session = await auth()
+    const session = request.auth
     
-    if (!session?.user?.id) {
-      console.error('No session found in WakaTime callback')
-      return NextResponse.redirect(new URL('/auth/login', request.url))
-    }
-
     const searchParams = request.nextUrl.searchParams
     const code = searchParams.get('code')
+    const state = searchParams.get('state')
     const error = searchParams.get('error')
+
+    const userId = state || session?.user?.id
+
+    if (!userId) {
+      console.error('No session or state user ID found in WakaTime callback')
+      return NextResponse.redirect(new URL('/auth/login', request.url))
+    }
 
     if (error) {
       console.error('WakaTime error param:', error)
@@ -39,7 +42,7 @@ export async function GET(request: NextRequest) {
       : null
     
     await saveIntegration(
-      session.user.id,
+      userId,
       'wakatime',
       tokenResponse.access_token,
       tokenResponse.refresh_token || '',
@@ -55,4 +58,4 @@ export async function GET(request: NextRequest) {
       new URL('/dashboard/integrations?error=callback_failed', request.url)
     )
   }
-}
+})

@@ -121,17 +121,17 @@ export async function POST(request: NextRequest) {
     const { provider } = body
 
     if (provider === 'spotify') {
-      const authUrl = buildSpotifyAuthUrl()
+      const authUrl = buildSpotifyAuthUrl(session.user.id)
       return NextResponse.json({ auth_url: authUrl })
     }
 
     if (provider === 'github') {
-      const authUrl = buildGitHubAuthUrl()
+      const authUrl = buildGitHubAuthUrl(session.user.id)
       return NextResponse.json({ auth_url: authUrl })
     }
 
     if (provider === 'wakatime') {
-      const authUrl = buildWakaTimeAuthUrl()
+      const authUrl = buildWakaTimeAuthUrl(session.user.id)
       return NextResponse.json({ auth_url: authUrl })
     }
 

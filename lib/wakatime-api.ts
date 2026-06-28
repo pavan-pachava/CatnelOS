@@ -89,11 +89,12 @@ export async function getWakaTimeSummaries(userId: string, start: string, end: s
   return data.data
 }
 
-export function buildWakaTimeAuthUrl(): string {
+export function buildWakaTimeAuthUrl(userId: string): string {
   const params = new URLSearchParams({
     client_id: process.env.WAKATIME_ID || '',
     response_type: 'code',
     redirect_uri: process.env.WAKATIME_CALLBACK_URL || '',
+    state: userId,
     scope: 'email,read_stats,read_logged_time',
   })
 

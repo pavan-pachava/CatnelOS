@@ -1,22 +1,26 @@
-﻿import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { exchangeSpotifyCode } from '@/lib/spotify-api'
 import { saveSpotifyIntegration } from '@/lib/auth-service'
 
-export async function GET(request: NextRequest) {
+export const GET = auth(async function GET(request: any) {
   try {
     console.log('Spotify callback started...')
-    const session = await auth()
+    const session = request.auth
     console.log('Session user ID:', session?.user?.id)
-
-    if (!session?.user?.id) {
-      console.error('No session found in Spotify callback')
-      return NextResponse.redirect(new URL('/auth/login', request.url))
-    }
 
     const searchParams = request.nextUrl.searchParams
     const code = searchParams.get('code')
+    const state = searchParams.get('state')
     const error = searchParams.get('error')
+
+    const userId = state || session?.user?.id
+    console.log('Resolved user ID in callback:', userId)
+
+    if (!userId) {
+      console.error('No session or state user ID found in Spotify callback')
+      return NextResponse.redirect(new URL('/auth/login', request.url))
+    }
 
     if (error) {
       console.error('Spotify error param:', error)
@@ -37,10 +41,10 @@ export async function GET(request: NextRequest) {
     console.log('Token response received')
 
     const expiresAt = new Date(Date.now() + tokenResponse.expires_in * 1000)
-    console.log('Saving integration for user:', session.user.id)
+    console.log('Saving integration for user:', userId)
     
     await saveSpotifyIntegration(
-      session.user.id,
+      userId,
       tokenResponse.access_token,
       tokenResponse.refresh_token || '',
       expiresAt
@@ -56,4 +60,4 @@ export async function GET(request: NextRequest) {
       new URL('/dashboard/integrations?error=callback_failed', request.url)
     )
   }
-}
+})
